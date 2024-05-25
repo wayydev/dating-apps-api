@@ -26,7 +26,7 @@ func (s AuthController) Login(c *gin.Context) {
 	user, err := s.AuthService.Login(req)
 
 	if err != nil {
-		panic(err)
+		utilities.ErrorPanic(err)
 		return
 	}
 

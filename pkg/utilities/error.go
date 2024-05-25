@@ -9,13 +9,10 @@ type Error struct {
 	Stack   interface{} `json:"stack"`
 }
 
-func ErrorPanic(message string, status int, data interface{}, stack interface{}) {
-	panic(&Error{
-		Message: message,
-		Status:  status,
-		Data:    data,
-		Stack:   stack,
-	})
+func ErrorPanic(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 func ErrorHandle() gin.HandlerFunc {
