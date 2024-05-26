@@ -118,7 +118,7 @@ func (r *SwapRepository) Limiter(userID uint) error {
 	}
 
 	var feature *models.PackageFeature
-	if err := r.db.Where("package_id = ? AND name = ?", packages.ID, "limit").Limit(1).Find(&packages).Error; err != nil {
+	if err := r.db.Where("package_id = ? AND name = ?", packages.ID, "limit").Limit(1).Find(&feature).Error; err != nil {
 		return err
 	}
 
