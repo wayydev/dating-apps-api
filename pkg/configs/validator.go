@@ -56,4 +56,5 @@ func InitRuleMessage(validate *validator.Validate, trans ut.Translator) {
 	}
 
 	validate.RegisterTranslation("date", trans, rules.DateRuleMessage, transFn)
+	validate.RegisterTranslation("unique", trans, rules.UniqueRuleMessage, transFn)
 }

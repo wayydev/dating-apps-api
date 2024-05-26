@@ -11,7 +11,7 @@ type User struct {
 	Name           string         `json:"name" gorm:"size:50 not null"`
 	Username       string         `json:"username" gorm:"size:100 not null unique"`
 	Email          string         `json:"email" gorm:"type:text not null unique"`
-	Password       string         `json:"password,omitempty" gorm:"type:text"`
+	Password       string         `json:"-" gorm:"type:text"`
 	Phone          string         `json:"phone" gorm:"size:20"`
 	Latitude       float32        `json:"latitude" gorm:"type:float"`
 	Longitude      float32        `json:"longitude" gorm:"type:float"`
@@ -24,5 +24,5 @@ type User struct {
 	FindOnDistance uint           `json:"find_on_distance" gorm:"default:20"`
 	CreatedAt      time.Time      `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt      time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
-	DeletedAt      gorm.DeletedAt `json:"deleted_at,omitempty"`
+	DeletedAt      gorm.DeletedAt `json:"-"`
 }

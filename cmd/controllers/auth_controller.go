@@ -3,27 +3,24 @@ package controllers
 import (
 	"dating-apps/api/cmd/requests"
 	"dating-apps/api/cmd/services"
-	"dating-apps/api/pkg/injectors"
 	"dating-apps/api/pkg/utilities"
 
 	"github.com/gin-gonic/gin"
 )
 
 type AuthController struct {
-	AuthService *services.AuthService
+	Service *services.Service
 }
 
-func NewAuthController(service *injectors.Service) *AuthController {
-	return &AuthController{
-		AuthService: service.AuthService,
-	}
+func NewAuthController(service *services.Service) *AuthController {
+	return &AuthController{service}
 }
 
 func (s AuthController) Login(c *gin.Context) {
 	var req *requests.Login
 	c.ShouldBindJSON(&req)
 
-	user, err := s.AuthService.Login(req)
+	user, err := s.Service.AuthService.Login(req)
 
 	if err != nil {
 		utilities.ErrorPanic(err)
@@ -37,7 +34,7 @@ func (s AuthController) Registration(c *gin.Context) {
 	req := requests.Registration{}
 	c.ShouldBindJSON(&req)
 
-	err := s.AuthService.Registration(&req)
+	err := s.Service.AuthService.Registration(&req)
 
 	if err != nil {
 		utilities.ErrorPanic(err)
