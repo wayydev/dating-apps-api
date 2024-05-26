@@ -10,7 +10,7 @@ import (
 
 func DateRule(fl validator.FieldLevel) bool {
 	date := fl.Field().String()
-	_, err := time.Parse("2006-02-01", date)
+	_, err := time.Parse("2006-01-02", date)
 	fmt.Print(err)
 	return err == nil
 }
