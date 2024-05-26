@@ -39,7 +39,7 @@ func (s SwapController) Like(c *gin.Context) {
 		return
 	}
 
-	utilities.ResponseJSON(c, "Success get nearby peoples", 200, user)
+	utilities.ResponseJSON(c, "Success to liked", 200, user)
 }
 
 func (s SwapController) Pass(c *gin.Context) {
@@ -53,5 +53,5 @@ func (s SwapController) Pass(c *gin.Context) {
 		return
 	}
 
-	utilities.ResponseJSON(c, "Success get nearby peoples", 200, user)
+	utilities.ResponseJSON(c, "Success to passed", 200, user)
 }
