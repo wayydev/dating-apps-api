@@ -46,7 +46,7 @@ func (r UserRepository) Create(user *models.User) (*models.User, error) {
 
 	if err := r.db.Create(&models.UserPackage{
 		UserId:    user.ID,
-		PackageId: 1,
+		PackageID: 1,
 	}).Error; err != nil {
 		return nil, err
 	}

@@ -107,22 +107,35 @@ func (r *SwapRepository) Limiter(userID uint) error {
 		return err
 	}
 
-	var userPackage *models.UserPackage
-	if err := r.db.Where("user_id = ? AND expires_at >= ?", userID, now).Limit(1).Find(&userPackage).Error; err != nil {
+	var userPackage models.UserPackage
+	if err := r.db.Where("user_id = ? AND (expires_at >= ? or expires_at is null)", userID, now).First(&userPackage).Error; err != nil {
+		if gorm.ErrRecordNotFound == err {
+			return utilities.Error("User package not found", 404, nil, nil)
+		}
 		return err
 	}
 
-	var packages *models.Package
-	if err := r.db.Where("id = ?", userPackage.PackageId, now).Limit(1).Find(&packages).Error; err != nil {
+	var packageModel models.Package
+	if err := r.db.Where("id = ?", userPackage.PackageID).First(&packageModel).Error; err != nil {
+		if gorm.ErrRecordNotFound == err {
+			return utilities.Error("Package not found", 404, nil, nil)
+		}
 		return err
 	}
 
-	var feature *models.PackageFeature
-	if err := r.db.Where("package_id = ? AND name = ?", packages.ID, "limit").Limit(1).Find(&feature).Error; err != nil {
+	var feature models.PackageFeature
+	if err := r.db.Where("package_id = ? AND name = ?", packageModel.ID, "limit").First(&feature).Error; err != nil {
+		if gorm.ErrRecordNotFound == err {
+			return utilities.Error("Feature not found", 404, nil, nil)
+		}
 		return err
 	}
 
-	limit, _ := strconv.Atoi(feature.Value)
+	limit, err := strconv.Atoi(feature.Value)
+	if err != nil {
+		return utilities.Error("Invalid feature value", 500, nil, nil)
+	}
+
 	if count >= int64(limit) {
 		return utilities.Error("Your daily access has expired", 422, nil, nil)
 	}
