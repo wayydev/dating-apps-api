@@ -30,7 +30,7 @@ func (s SwapController) Find(c *gin.Context) {
 
 func (s SwapController) Like(c *gin.Context) {
 	auth, _ := c.Get("auth")
-	swapUserID, _ := strconv.Atoi(c.Param("swap_id"))
+	swapUserID, _ := strconv.Atoi(c.Param("swap_user_id"))
 
 	user, err := s.Service.SwapService.Like(auth.(*utilities.JWT), uint(swapUserID))
 
@@ -44,7 +44,7 @@ func (s SwapController) Like(c *gin.Context) {
 
 func (s SwapController) Pass(c *gin.Context) {
 	auth, _ := c.Get("auth")
-	swapUserID, _ := strconv.Atoi(c.Param("swap_id"))
+	swapUserID, _ := strconv.Atoi(c.Param("swap_user_id"))
 
 	user, err := s.Service.SwapService.Pass(auth.(*utilities.JWT).ID, uint(swapUserID))
 

@@ -7,10 +7,10 @@ import (
 )
 
 func SwapRoute(router *gin.Engine, controller *controllers.SwapController) {
-	routes := router.Group("/")
+	routes := router.Group("/swap")
 	{
-		routes.GET("/swap", controller.Find)
-		routes.PUT("/like", controller.Like)
-		routes.PUT("/pass", controller.Pass)
+		routes.GET("/", controller.Find)
+		routes.PUT("/like/:swap_user_id", controller.Like)
+		routes.PUT("/pass/:swap_user_id", controller.Pass)
 	}
 }
