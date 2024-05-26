@@ -32,3 +32,14 @@ func (s AuthController) Login(c *gin.Context) {
 
 	utilities.ResponseJSON(c, "Login Success", 200, user)
 }
+
+func (s AuthController) Registration(c *gin.Context) {
+	var req *requests.Registration
+	err := s.AuthService.Registration(req)
+
+	if err != nil {
+		utilities.ErrorPanic(err)
+	}
+
+	utilities.ResponseJSON(c, "Registration Success", 201, nil)
+}

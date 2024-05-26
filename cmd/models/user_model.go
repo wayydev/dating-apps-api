@@ -22,7 +22,6 @@ type User struct {
 	PhotoProfile   string         `json:"photo_profile" gorm:"type:text"`
 	UserPhoto      *UserPhoto     `json:"user_photos"`
 	FindOnDistance uint           `json:"find_on_distance" gorm:"default:20"`
-	PackageID      uint           `json:"package_id"`
 	CreatedAt      time.Time      `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt      time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
 	DeletedAt      gorm.DeletedAt `json:"deleted_at,omitempty"`

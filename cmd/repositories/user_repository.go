@@ -17,7 +17,7 @@ func NewUserRepository(db *gorm.DB) interfaces.UserRepositoryInterface {
 
 func (r UserRepository) FindByUsername(username string) (*models.User, error) {
 	var user models.User
-	if err := r.db.Where("username", username).Find(&user).Error; err != nil {
+	if err := r.db.Where("username = ?", username).Find(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
@@ -29,4 +29,11 @@ func (r UserRepository) FindByEmail(email string) (*models.User, error) {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (r UserRepository) Create(user *models.User) (*models.User, error) {
+	if err := r.db.Create(&user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
 }
