@@ -9,6 +9,8 @@ import (
 
 func main() {
 	db := databases.ConnectDatabase()
+	databases.InitMigrate(db)
+
 	validate := configs.InitValidate()
 	service := injectors.InitService(db, validate)
 
