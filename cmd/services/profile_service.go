@@ -33,3 +33,17 @@ func (s ProfileService) GetProfile(id uint) (*models.User, error) {
 
 	return user, nil
 }
+
+func (s ProfileService) GetNotification(id uint) (*[]models.Notification, error) {
+	notifications, err := s.Repo.UserRepository.GetAllNotification(id)
+
+	if err != nil && notifications == nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return notifications, nil
+}

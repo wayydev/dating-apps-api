@@ -10,5 +10,6 @@ func ProfileRoute(router *gin.Engine, controller *controllers.ProfileController)
 	routes := router.Group("/profile")
 	{
 		routes.GET("/", controller.Get)
+		routes.GET("/notifications", controller.Notification)
 	}
 }

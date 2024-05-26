@@ -45,3 +45,11 @@ func (r UserRepository) Create(user *models.User) (*models.User, error) {
 	}
 	return user, nil
 }
+
+func (r UserRepository) GetAllNotification(id uint) (*[]models.Notification, error) {
+	var user []models.Notification
+	if err := r.db.Where("user_id", id).Find(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}

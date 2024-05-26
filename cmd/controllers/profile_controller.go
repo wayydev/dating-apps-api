@@ -26,3 +26,15 @@ func (s ProfileController) Get(c *gin.Context) {
 
 	utilities.ResponseJSON(c, "Success get Profile", 200, user)
 }
+
+func (s ProfileController) Notification(c *gin.Context) {
+	auth, _ := c.Get("auth")
+	user, err := s.Service.ProfileService.GetNotification(auth.(*utilities.JWT).ID)
+
+	if err != nil {
+		utilities.ErrorPanic(err)
+		return
+	}
+
+	utilities.ResponseJSON(c, "Success get notification", 200, user)
+}
