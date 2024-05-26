@@ -18,6 +18,7 @@ func Init(service *services.Service) {
 	router.Use(middlewares.AuthMiddleware())
 	{
 		ProfileRoute(router, controllers.NewProfileController(service))
+		SwapRoute(router, controllers.NewSwapController(service))
 	}
 
 	router.NoRoute(utilities.ErrorNotFound)
