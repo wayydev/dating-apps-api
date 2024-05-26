@@ -8,5 +8,6 @@ import (
 type SwapRepositoryInterface interface {
 	FindUser(userID uint) (*models.User, error)
 	Like(user *utilities.JWT, userSwapId uint) error
-	Pass(userId uint, userSwapId uint) error
+	Pass(userID uint, userSwapId uint) error
+	Limiter(userID uint) error
 }

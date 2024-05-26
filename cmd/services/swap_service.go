@@ -57,3 +57,13 @@ func (s SwapService) Pass(userID uint, swapUserID uint) (*models.User, error) {
 
 	return user, nil
 }
+
+func (s SwapService) Limiter(userID uint) error {
+	err := s.Repo.SwapRepository.Limiter(userID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

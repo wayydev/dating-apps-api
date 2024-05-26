@@ -17,7 +17,7 @@ func Init(service *services.Service) {
 
 	router.Use(middlewares.AuthMiddleware())
 	{
-		router.Use(middlewares.LimiterMiddleware())
+		router.Use(middlewares.LimiterMiddleware(service))
 		{
 			SwapRoute(router, controllers.NewSwapController(service))
 		}

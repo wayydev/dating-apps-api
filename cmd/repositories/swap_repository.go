@@ -5,6 +5,7 @@ import (
 	"dating-apps/api/cmd/repositories/interfaces"
 	"dating-apps/api/pkg/utilities"
 	"fmt"
+	"strconv"
 	"time"
 
 	"gorm.io/gorm"
@@ -91,6 +92,39 @@ func (r *SwapRepository) Pass(userID, swapUserID uint) error {
 
 	if err := r.db.Create(&swap).Error; err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (r *SwapRepository) Limiter(userID uint) error {
+	var count int64
+
+	now := time.Now()
+	previous24Hours := now.Add(-24 * time.Hour)
+
+	if err := r.db.Where("user_id = ? AND created_at BETWEEN ? AND ?", userID, now, previous24Hours).Count(&count).Error; err != nil {
+		return err
+	}
+
+	var userPackage *models.UserPackage
+	if err := r.db.Where("user_id = ? AND expires_at >= ?", userID, now).Limit(1).Find(&userPackage).Error; err != nil {
+		return err
+	}
+
+	var packages *models.Package
+	if err := r.db.Where("package_id = ?", userID, now).Limit(1).Find(&packages).Error; err != nil {
+		return err
+	}
+
+	var feature *models.PackageFeature
+	if err := r.db.Where("package_id = ? AND name = ?", packages.ID, "limit").Limit(1).Find(&packages).Error; err != nil {
+		return err
+	}
+
+	limit, _ := strconv.Atoi(feature.Value)
+	if count >= int64(limit) {
+		return utilities.Error("Your daily access has expired", 422, nil, nil)
 	}
 
 	return nil
