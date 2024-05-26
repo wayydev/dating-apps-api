@@ -5,6 +5,7 @@ import (
 	"dating-apps/api/cmd/repositories/interfaces"
 	"dating-apps/api/cmd/requests"
 	"dating-apps/api/pkg/utilities"
+	"fmt"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -39,6 +40,7 @@ func (s AuthService) Login(request *requests.Login) (*models.User, error) {
 }
 
 func (s AuthService) Registration(request *requests.Registration) error {
+	fmt.Println("Test", request)
 	if err := s.Validate.Struct(request); err != nil {
 		return err
 	}
@@ -57,9 +59,9 @@ func (s AuthService) Registration(request *requests.Registration) error {
 		Password:       password,
 		Latitude:       request.Latitude,
 		Longitude:      request.Longitude,
+		Location:       fmt.Sprintf("SRID=4236;POINT(%f %f)", request.Longitude, request.Latitude),
 		PlaceOfBirth:   request.PlaceOfBirth,
 		DateOfBirth:    request.DateOfBirth,
-		PhotoProfile:   request.PhotoProfile,
 		FindOnDistance: request.FindOnDistance,
 	}
 

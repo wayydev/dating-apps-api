@@ -11,7 +11,7 @@ func main() {
 	db := databases.ConnectDatabase()
 	databases.InitMigrate(db)
 
-	validate := configs.InitValidate()
+	validate := configs.InitValidate(db)
 	service := injectors.InitService(db, validate)
 
 	routes.Init(service)

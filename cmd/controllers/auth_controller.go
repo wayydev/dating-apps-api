@@ -34,8 +34,10 @@ func (s AuthController) Login(c *gin.Context) {
 }
 
 func (s AuthController) Registration(c *gin.Context) {
-	var req *requests.Registration
-	err := s.AuthService.Registration(req)
+	req := requests.Registration{}
+	c.ShouldBindJSON(&req)
+
+	err := s.AuthService.Registration(&req)
 
 	if err != nil {
 		utilities.ErrorPanic(err)

@@ -2,7 +2,6 @@ package utilities
 
 import (
 	"dating-apps/api/pkg/configs"
-	"fmt"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -15,7 +14,6 @@ func TranslatorValidate(err error) map[string]string {
 			translated := e.Translate(configs.Translator)
 			errs[e.Field()] = translated
 		}
-		fmt.Println(errs)
 		return errs
 	}
 

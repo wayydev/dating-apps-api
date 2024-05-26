@@ -17,7 +17,7 @@ type User struct {
 	Longitude      float32        `json:"longitude" gorm:"type:float"`
 	Location       string         `json:"string" gorm:"type:geography(POINT,4326)"`
 	PlaceOfBirth   string         `json:"place_of_birth" gorm:"size:50"`
-	DateOfBirth    time.Time      `json:"date_of_birth"`
+	DateOfBirth    string         `json:"date_of_birth" gorm:"type:date"`
 	Gender         string         `json:"gender" gorm:"size:20 not null"`
 	PhotoProfile   string         `json:"photo_profile" gorm:"type:text"`
 	UserPhoto      *UserPhoto     `json:"user_photos"`
