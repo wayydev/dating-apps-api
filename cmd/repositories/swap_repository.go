@@ -115,16 +115,8 @@ func (r *SwapRepository) Limiter(userID uint) error {
 		return err
 	}
 
-	var packageModel models.Package
-	if err := r.db.Where("id = ?", userPackage.PackageID).First(&packageModel).Error; err != nil {
-		if gorm.ErrRecordNotFound == err {
-			return utilities.Error("Package not found", 404, nil, nil)
-		}
-		return err
-	}
-
 	var feature models.PackageFeature
-	if err := r.db.Where("package_id = ? AND name = ?", packageModel.ID, "limit").First(&feature).Error; err != nil {
+	if err := r.db.Where("package_id = ? AND name = ?", userPackage.PackageID, "limit").First(&feature).Error; err != nil {
 		if gorm.ErrRecordNotFound == err {
 			return utilities.Error("Feature not found", 404, nil, nil)
 		}
