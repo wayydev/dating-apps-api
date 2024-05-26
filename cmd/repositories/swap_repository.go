@@ -103,7 +103,7 @@ func (r *SwapRepository) Limiter(userID uint) error {
 	now := time.Now()
 	previous24Hours := now.Add(-24 * time.Hour)
 
-	if err := r.db.Where("user_id = ? AND created_at BETWEEN ? AND ?", userID, now, previous24Hours).Count(&count).Error; err != nil {
+	if err := r.db.Model(&models.Swap{}).Where("user_id = ? AND created_at BETWEEN ? AND ?", userID, previous24Hours, now).Count(&count).Error; err != nil {
 		return err
 	}
 
@@ -113,7 +113,7 @@ func (r *SwapRepository) Limiter(userID uint) error {
 	}
 
 	var packages *models.Package
-	if err := r.db.Where("package_id = ?", userID, now).Limit(1).Find(&packages).Error; err != nil {
+	if err := r.db.Where("id = ?", userPackage.PackageId, now).Limit(1).Find(&packages).Error; err != nil {
 		return err
 	}
 
