@@ -5,7 +5,6 @@ import (
 	"dating-apps/api/cmd/repositories/interfaces"
 	"dating-apps/api/cmd/requests"
 	"dating-apps/api/pkg/utilities"
-	"errors"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -33,8 +32,8 @@ func (s AuthService) Login(request *requests.Login) (*models.User, error) {
 		return nil, err
 	}
 
-	if err := utilities.HashCompare(request.Password, user.Password); err != true {
-		return nil, errors.New("Username or password is wrong")
+	if err := utilities.HashCompare(request.Password, user.Password); err != false {
+		return nil, utilities.Error("Username or password is wrong", 422, nil, nil)
 	}
 
 	return user, nil

@@ -15,5 +15,5 @@ func Init(service *injectors.Service) {
 	AuthRoute(router, controllers.NewAuthController(service))
 
 	router.NoRoute(utilities.ErrorNotFound)
-	router.Run(":3000")
+	router.Run(":8000")
 }
