@@ -59,11 +59,15 @@ func ErrorHandle() gin.HandlerFunc {
 	}
 }
 
-func ErrorNotFound(c *gin.Context) {
-	c.JSON(404, &ErrorReponse{
-		Message: "Page Not Found",
-		Status:  404,
-		Data:    nil,
-		Stack:   nil,
-	})
+func ErrorNotFound() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			c.JSON(404, &ErrorReponse{
+				Message: "Page Not Found",
+				Status:  404,
+				Data:    nil,
+				Stack:   nil,
+			})
+		}()
+	}
 }

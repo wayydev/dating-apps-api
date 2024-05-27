@@ -11,7 +11,9 @@ func AuthMiddleware() gin.HandlerFunc {
 		authorization := c.GetHeader("Authorization")
 
 		if authorization == "" {
-			utilities.Error("Authorization", 401, nil, nil)
+			errResponse := utilities.Error("Authorization header missing", 401, nil, nil)
+			c.JSON(errResponse.Status, errResponse)
+			c.Abort()
 			return
 		}
 
@@ -19,8 +21,10 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		auth, err := utilities.ParseTokenJWT(authToken)
 
-		if err != nil {
-			utilities.ErrorPanic(err)
+		if err != nil || auth == nil {
+			errResponse := utilities.Error("Invalid token", 401, nil, err)
+			c.JSON(errResponse.Status, errResponse)
+			c.Abort()
 			return
 		}
 
